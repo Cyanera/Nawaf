@@ -3,7 +3,7 @@
   var D = App.D, LES = App.LES, MOD = App.MOD;
   var $ = UI.$, $$ = UI.$$, esc = UI.esc, md = UI.md, inl = UI.inline;
   var S = function () { return Store.get(); };
-  var ALL_PARTS = ['head', 'what', 'why', 'example', 'exercise', 'interview', 'mistake', 'quiz', 'cards', 'videos', 'refs', 'nav'];
+  var ALL_PARTS = ['head', 'what', 'video', 'why', 'example', 'exercise', 'interview', 'mistake', 'quiz', 'cards', 'videos', 'refs', 'nav'];
 
   function sec(n, title, body, cls) {
     return '<section class="step ' + (cls || '') + '"><h2><span class="num" aria-hidden="true">' + n + '</span>' + esc(title) + '</h2>' + body + '</section>';
@@ -28,6 +28,16 @@
     return h;
   };
 
+  function videoCard(id) {
+    var vs = D.videos && D.videos[id]; if (!vs || !vs.length) return '';
+    var v = vs[0], vid = (v[1].split('v=')[1] || '').split('&')[0];
+    var embed = location.protocol.indexOf('http') === 0 && typeof window.claude === 'undefined';
+    return sec('▶', 'شاهد الشرح بالعربي', '<p><strong>' + esc(v[0]) + '</strong></p><div class="vid-box" data-vid="' + esc(vid) + '" data-title="' + esc(v[0]) + '">' +
+      (embed ? '<button class="btn btn-primary" data-play>شغّل الفيديو هنا</button> ' : '') +
+      '<a class="btn" href="' + esc(v[1]) + '" target="_blank" rel="noopener noreferrer">افتحه على يوتيوب</a></div>' +
+      '<p class="muted small">شاهده بعد قراءة الشرح أعلاه ثم جرّب التمرين. العنوان من نتائج بحث يوتيوب ولم أراجع المحتوى.</p>', 'vid-sec');
+  }
+
   /* ================== الدرس ================== */
   App.renderLesson = function (root, id, opts) {
     opts = opts || {};
@@ -46,6 +56,7 @@
     if (has('title')) h += '<h2 class="lesson-title">' + inl(L.title) + ' ' + cvBadge(L) + '</h2>';
     var dg = D.diagrams && D.diagrams[id], fig = dg ? '<figure class="dg-fig">' + dg.svg + '<figcaption>' + esc(dg.cap) + '</figcaption></figure>' : '';
     if (has('what')) h += sec('1', 'ما هو؟', md(L.what) + fig);
+    if (has('video')) h += videoCard(id);
     if (has('why')) h += sec('2', 'أين يُستخدم في العمل؟', md(L.why));
     if (has('example')) h += sec('3', 'مثال عملي', md(L.example));
     if (has('exercise')) {
@@ -69,8 +80,8 @@
         return '<li><div class="c-q">' + inl(c[0]) + '</div><button class="btn btn-ghost c-t" aria-expanded="false" data-i="' + i + '">أظهر الإجابة</button><div class="c-a" hidden>' + inl(c[1]) + '</div></li>';
       }).join('') + '</ul>');
     }
-    if (has('videos') && D.videos && D.videos[id]) {
-      h += sec('▶', 'شروحات عربية على يوتيوب', '<ul class="vids">' + D.videos[id].map(function (v) { return '<li><a href="' + esc(v[1]) + '" target="_blank" rel="noopener noreferrer">' + esc(v[0]) + '</a></li>'; }).join('') + '</ul><p class="muted small">الروابط من نتائج بحث يوتيوب بالعربية، والعناوين كما ظهرت. لم تُراجَع محتوياتها، فشاهد مقطعًا قصيرًا وقرّر هل يناسبك. تفتح في تبويب جديد.</p>');
+    if (has('videos') && D.videos && D.videos[id] && D.videos[id].length > 1) {
+      h += sec('▶', 'شروحات إضافية', '<ul class="vids">' + D.videos[id].slice(1).map(function (v) { return '<li><a href="' + esc(v[1]) + '" target="_blank" rel="noopener noreferrer">' + esc(v[0]) + '</a></li>'; }).join('') + '</ul><p class="muted small">الروابط من نتائج بحث يوتيوب بالعربية، والعناوين كما ظهرت. لم تُراجَع محتوياتها، فشاهد مقطعًا قصيرًا وقرّر هل يناسبك. تفتح في تبويب جديد.</p>');
     }
     if (has('refs') && L.refs.length) h += sec('↗', 'للتوسّع (مصادر رسمية)', App.refsHTML(L.refs) + '<p class="muted small">الروابط تفتح صفحات خارجية، وقد تتغيّر مساراتها مع الوقت.</p>');
     if (has('nav')) {
@@ -151,6 +162,15 @@
       else qz.innerHTML = '<p>ثلاثة أسئلة قصيرة بأشكال مختلفة. لا بأس بالخطأ أو بخيار «لا أتذكر».</p><button class="btn btn-primary" id="qs">ابدأ التحقق السريع</button>';
       var qs = $('#qs', qz); if (qs) qs.addEventListener('click', startQuiz);
     }
+    $$('[data-play]', root).forEach(function (b) {
+      b.addEventListener('click', function () {
+        var box = b.parentNode, f = document.createElement('iframe');
+        f.className = 'vid-frame'; f.src = 'https://www.youtube-nocookie.com/embed/' + encodeURIComponent(box.dataset.vid);
+        f.title = box.dataset.title; f.loading = 'lazy'; f.allowFullscreen = true; f.setAttribute('referrerpolicy', 'strict-origin-when-cross-origin');
+        f.allow = 'accelerometer; encrypted-media; gyroscope; picture-in-picture; fullscreen';
+        box.insertBefore(f, box.firstChild); b.remove();
+      });
+    });
     /* بطاقات الاسترجاع داخل الدرس */
     $$('.c-t', root).forEach(function (b) {
       b.addEventListener('click', function () {

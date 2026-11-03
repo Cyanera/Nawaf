@@ -237,3 +237,5 @@ details.qa summary { cursor: pointer; padding: 10px 0; font-weight: 700; min-hei
 .res { display: grid; grid-template-columns: max-content 1fr; gap: 6px 16px; } .res dt { color: var(--muted); } .res dd { margin: 0; direction: ltr; text-align: start; font-family: var(--mono); }
 .inline-row { display: flex; gap: 10px; flex-wrap: wrap; align-items: end; } .inline-row > div { flex: 1; min-width: 140px; }
 .inline-row input[type=text], .inline-row input[type=number] { width: 100%; font: inherit; padding: 10px 12px; border: 1px solid var(--line); border-radius: 10px; background: var(--surface); color: var(--text); direction: ltr; min-height: 44px; }
+
+.vid-box { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; } .vid-frame { width: 100%; aspect-ratio: 16 / 9; max-width: 100%; border: 0; border-radius: var(--radius); background: #000; }

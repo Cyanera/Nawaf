@@ -80,7 +80,7 @@
         App.renderReviewRun($('#sr'), s.qs, { onDone: mark });
       } else if (s.type === 'lesson') {
         App.renderLesson(body, s.id, {
-          parts: ['title', 'what', 'why', 'example', 'exercise', 'quiz'],
+          parts: ['title', 'what', 'video', 'why', 'example', 'exercise', 'quiz'],
           onEvent: function () { var r = Store.lesson(s.id); if (r.exDone && r.quizLast && r.quizLast.day === Store.day()) mark(); }
         });
         var r0 = Store.lesson(s.id); if (r0.exDone && r0.quizLast && r0.quizLast.day === Store.day()) mark();
