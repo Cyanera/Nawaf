@@ -1,7 +1,7 @@
 /* التوجيه والإقلاع */
 (function () {
   document.documentElement.dir = 'rtl'; document.documentElement.lang = 'ar';
-  var NAV = { home: 'home', placement: 'home', session: 'home', cv: 'path', path: 'path', lesson: 'path', review: 'review', cards: 'review', labs: 'labs', lab: 'labs', interview: 'interview', mock: 'interview', progress: 'progress' };
+  var NAV = { home: 'home', placement: 'home', session: 'home', cv: 'path', path: 'path', lesson: 'path', review: 'review', cards: 'review', labs: 'labs', lab: 'labs', interview: 'interview', mock: 'interview', progress: 'progress', subnet: 'path' };
 
   function route() {
     if (App.leave) App.leave();

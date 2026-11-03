@@ -118,6 +118,18 @@
       '<section class="card"><h2>ما أنجزته</h2><ul class="plain tight"><li>تمارين دروس: ' + exN + '</li><li>أسئلة مقابلة في الدروس: ' + ivN + '</li><li>اختبارات دروس: ' + qzN + '</li><li>مختبرات نُفّذت فعليًا: ' + labsDone + '</li><li>مختبرات اطّلعتَ على حلها فقط: ' + labsRead + '</li><li>مقابلات تجريبية: ' + s.interview.mocks.length + '</li><li>أسئلة تدرّبتَ عليها شفهيًا: ' + oral + '</li></ul></section>' +
       '<section class="card"><h2>الاستمرارية</h2><p class="bignum">' + st.current + '</p><p class="small muted">يوم متتالٍ حاليًا · أطول سلسلة ' + st.longest + ' · إجمالي أيام النشاط ' + st.total + '</p><p class="small muted">الأسئلة: صحيح ' + s.qlog.correct + ' من ' + s.qlog.answered + ' محاولة (جميع المحاولات).</p></section></div>';
 
+    /* رسوم التقدّم: حالات الدروس لكل وحدة، ونشاط آخر 14 يومًا */
+    var mh = D.modules.map(function (m) {
+      var ls = D.lessons.filter(function (l) { return l.module === m.id; }), n = ls.length, c2 = { mastered: 0, review: 0, learning: 0, 'new': 0 };
+      ls.forEach(function (l) { c2[App.status(l.id)]++; });
+      return '<div class="mrow"><span class="mt">' + esc(m.title) + '</span><div class="hbar" role="img" aria-label="' + esc(m.title) + ': أتقنت ' + c2.mastered + ' من ' + n + '، قيد التعلّم ' + c2.learning + '، أحتاج مراجعة ' + c2.review + '">' +
+        ['mastered', 'review', 'learning'].map(function (k) { return c2[k] ? '<span class="sb-' + k + '" style="width:' + (c2[k] / n * 100) + '%"></span>' : ''; }).join('') + '</div><span class="small muted">' + c2.mastered + '/' + n + '</span></div>';
+    }).join('');
+    var bars = '', mx = 1, todayD = Store.day(), cnt = [];
+    for (var q = 13; q >= 0; q--) { var dd = Store.addDays(todayD, -q), nn = (s.days[dd] || []).length; cnt.push([dd, nn]); if (nn > mx) mx = nn; }
+    cnt.forEach(function (c3) { bars += '<div class="d' + (c3[1] ? '' : ' z') + '" title="' + esc(UI.fmtDateShort(c3[0])) + ': ' + c3[1] + ' نشاط"><span style="height:' + Math.round(c3[1] / mx * 90) + '%"></span>' + c3[1] + '</div>'; });
+    h += '<section class="card"><h2>الدروس حسب الوحدة</h2>' + mh + '<p class="small muted">الأخضر أتقنتَه · الأصفر يحتاج مراجعة · الأزرق قيد التعلّم.</p></section>';
+    h += '<section class="card"><h2>نشاطك في آخر 14 يومًا</h2><div class="dbars" role="img" aria-label="عدد الأنشطة المسجلة في كل يوم من آخر 14 يومًا">' + bars + '</div><p class="small muted">يُقرأ من الأقدم (يسارًا) إلى اليوم (يمينًا). كل عمود عدد الأنشطة الفعلية في ذلك اليوم.</p></section>';
     /* تقويم آخر 28 يومًا */
     var cells = '', today = Store.day(), act = 0;
     for (var k = 27; k >= 0; k--) {

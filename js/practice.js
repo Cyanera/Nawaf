@@ -35,6 +35,7 @@
     var rec = Store.lab(id), n = D.labs.indexOf(lab) + 1;
     var h = '<p class="crumb"><a href="#labs">المختبر</a> › مختبر ' + n + '</p><h1>' + esc(lab.title) + '</h1>' +
       '<p class="meta"><span class="badge plain">' + TYPE[lab.type] + '</span><span class="badge plain">' + lab.minutes + ' دقيقة تقريبًا</span><span class="badge" id="lab-badge"></span></p>';
+    if (id === 'lab1') h += '<p class="small"><a href="#subnet">حاسبة الشبكات الفرعية</a> للتحقق من إجابتك بعد المحاولة اليدوية.</p>';
     h += '<div class="callout warn"><strong>ما تحتاجه</strong><p>' + inl(lab.needs) + '</p></div>';
     h += '<section class="step"><h2>السيناريو</h2><p>' + inl(lab.scenario) + '</p></section>';
     h += '<section class="step"><h2>الخطوات</h2><ol class="steps-list">' + lab.steps.map(function (s) { return '<li>' + inl(s) + '</li>'; }).join('') + '</ol></section>';
@@ -158,7 +159,8 @@
   }
 
   function tabTech(root) {
-    var h = '<h2>أسئلة تقنية أساسية</h2><p class="muted">أجب بصوتك أولًا ثم اعرض الإجابة. الإجابات النموذجية قصيرة عمدًا، وأضف إليها مثالًا من تجربتك إن وُجد.</p>';
+    var h = '<h2>أسئلة تقنية أساسية</h2><p class="muted">أجب بصوتك أولًا ثم اعرض الإجابة. الإجابات النموذجية قصيرة عمدًا، وأضف إليها مثالًا من تجربتك إن وُجد.</p>' +
+      '<div class="callout"><strong>شروحات عربية عن مقابلات الدعم الفني</strong><ul class="vids">' + D.interviewVideos.map(function (v) { return '<li><a href="' + esc(v[1]) + '" target="_blank" rel="noopener noreferrer">' + esc(v[0]) + '</a></li>'; }).join('') + '</ul><p class="muted small">من نتائج بحث يوتيوب، ولم تُراجَع محتوياتها.</p></div>';
     D.modules.forEach(function (m) {
       h += '<h3>' + esc(m.title) + '</h3>';
       D.lessons.filter(function (l) { return l.module === m.id; }).forEach(function (l) {

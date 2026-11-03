@@ -3,7 +3,7 @@
   var D = App.D, LES = App.LES, MOD = App.MOD;
   var $ = UI.$, $$ = UI.$$, esc = UI.esc, md = UI.md, inl = UI.inline;
   var S = function () { return Store.get(); };
-  var ALL_PARTS = ['head', 'what', 'why', 'example', 'exercise', 'interview', 'mistake', 'quiz', 'cards', 'refs', 'nav'];
+  var ALL_PARTS = ['head', 'what', 'why', 'example', 'exercise', 'interview', 'mistake', 'quiz', 'cards', 'videos', 'refs', 'nav'];
 
   function sec(n, title, body, cls) {
     return '<section class="step ' + (cls || '') + '"><h2><span class="num" aria-hidden="true">' + n + '</span>' + esc(title) + '</h2>' + body + '</section>';
@@ -44,14 +44,15 @@
         }).join('') + '</fieldset></header>';
     }
     if (has('title')) h += '<h2 class="lesson-title">' + inl(L.title) + ' ' + cvBadge(L) + '</h2>';
-    if (has('what')) h += sec('1', 'ما هو؟', md(L.what));
+    var dg = D.diagrams && D.diagrams[id], fig = dg ? '<figure class="dg-fig">' + dg.svg + '<figcaption>' + esc(dg.cap) + '</figcaption></figure>' : '';
+    if (has('what')) h += sec('1', 'ما هو؟', md(L.what) + fig);
     if (has('why')) h += sec('2', 'أين يُستخدم في العمل؟', md(L.why));
     if (has('example')) h += sec('3', 'مثال عملي', md(L.example));
     if (has('exercise')) {
       h += sec('4', 'جرّب بنفسك', '<div class="task">' + md(L.exercise.task) + '</div>' +
         '<label class="lbl" for="ex-t">محاولتك (اختيارية الكتابة)</label><textarea id="ex-t" rows="4" placeholder="اكتب محاولتك هنا قبل رؤية الإجابة"></textarea>' +
         '<label class="check"><input type="checkbox" id="ex-c"> حلّلتُه ذهنيًا أو على ورقة</label>' +
-        '<button class="btn btn-primary" id="ex-b" disabled>اعرض الإجابة</button><div id="ex-a" hidden></div>');
+        '<button class="btn btn-primary" id="ex-b" disabled>اعرض الإجابة</button><div id="ex-a" hidden></div>' + (L.tool ? '<p class="small"><a href="#subnet">حاسبة الشبكات الفرعية</a> للتحقق من إجابتك بعد أن تحاول بنفسك.</p>' : ''));
     }
     if (has('interview')) {
       h += sec('5', 'سؤال مقابلة', '<p class="q">' + inl(L.interview.q) + '</p>' +
@@ -67,6 +68,9 @@
       h += sec('↺', 'بطاقات استرجاع', '<p class="muted small">حاول التذكّر أولًا ثم أظهر الإجابة.</p><ul class="cards-list">' + L.cards.map(function (c, i) {
         return '<li><div class="c-q">' + inl(c[0]) + '</div><button class="btn btn-ghost c-t" aria-expanded="false" data-i="' + i + '">أظهر الإجابة</button><div class="c-a" hidden>' + inl(c[1]) + '</div></li>';
       }).join('') + '</ul>');
+    }
+    if (has('videos') && D.videos && D.videos[id]) {
+      h += sec('▶', 'شروحات عربية على يوتيوب', '<ul class="vids">' + D.videos[id].map(function (v) { return '<li><a href="' + esc(v[1]) + '" target="_blank" rel="noopener noreferrer">' + esc(v[0]) + '</a></li>'; }).join('') + '</ul><p class="muted small">الروابط من نتائج بحث يوتيوب بالعربية، والعناوين كما ظهرت. لم تُراجَع محتوياتها، فشاهد مقطعًا قصيرًا وقرّر هل يناسبك. تفتح في تبويب جديد.</p>');
     }
     if (has('refs') && L.refs.length) h += sec('↗', 'للتوسّع (مصادر رسمية)', App.refsHTML(L.refs) + '<p class="muted small">الروابط تفتح صفحات خارجية، وقد تتغيّر مساراتها مع الوقت.</p>');
     if (has('nav')) {
@@ -340,4 +344,30 @@
     }
     show();
   }
+
+  /* ================== حاسبة الشبكات الفرعية (للتحقق من إجابتك) ================== */
+  App.views.subnet = function () {
+    var h = '<h1>حاسبة الشبكات الفرعية</h1><p class="lead">أداة للتحقق من إجابتك. حاول أولًا بنفسك على ورقة، ثم قارن. الحساب اليدوي هو ما يُسأل عنه في المقابلة.</p>' +
+      '<div class="card"><div class="inline-row"><div><label class="lbl" for="sn-ip">عنوان IPv4</label><input type="text" id="sn-ip" value="192.168.5.77" inputmode="decimal" autocomplete="off"></div>' +
+      '<div><label class="lbl" for="sn-p">البادئة (0–32)</label><input type="number" id="sn-p" min="0" max="32" value="26"></div></div>' +
+      '<p class="small" id="sn-err" role="alert"></p><dl class="res" id="sn-out"></dl></div>' +
+      '<p><a href="#lesson-L5">العودة إلى درس القناع وCIDR</a></p>';
+    App.mount(h, { title: 'حاسبة الشبكات الفرعية' });
+    function toNum(a) { return (((a[0] * 256 + a[1]) * 256 + a[2]) * 256 + a[3]) >>> 0; }
+    function toStr(n) { return [n >>> 24, (n >>> 16) & 255, (n >>> 8) & 255, n & 255].join('.'); }
+    function calc() {
+      var ipS = $('#sn-ip').value.trim(), p = parseInt($('#sn-p').value, 10), err = $('#sn-err'), out = $('#sn-out');
+      var m = /^(\d{1,3})\.(\d{1,3})\.(\d{1,3})\.(\d{1,3})$/.exec(ipS);
+      var a = m ? m.slice(1).map(Number) : null;
+      if (!a || a.some(function (x) { return x > 255; })) { err.textContent = 'اكتب عنوان IPv4 صحيحًا مثل 192.168.5.77'; out.innerHTML = ''; return; }
+      if (!(p >= 0 && p <= 32)) { err.textContent = 'البادئة بين 0 و32.'; out.innerHTML = ''; return; }
+      err.textContent = '';
+      var mask = p === 0 ? 0 : ((0xFFFFFFFF << (32 - p)) >>> 0), ip = toNum(a), net = (ip & mask) >>> 0, bc = (net | (~mask >>> 0)) >>> 0, total = Math.pow(2, 32 - p);
+      var hosts = p >= 31 ? (p === 31 ? 2 : 1) : total - 2;
+      var kind = (a[0] === 10) || (a[0] === 172 && a[1] >= 16 && a[1] <= 31) || (a[0] === 192 && a[1] === 168) ? 'خاص (Private)' : (a[0] === 169 && a[1] === 254 ? 'APIPA (فشل DHCP)' : (a[0] === 127 ? 'Loopback' : 'عام (Public)'));
+      var rows = [['القناع', toStr(mask)], ['عنوان الشبكة', toStr(net)], ['عنوان البث', toStr(bc)], ['أول جهاز', p >= 31 ? '—' : toStr(net + 1)], ['آخر جهاز', p >= 31 ? '—' : toStr(bc - 1)], ['عدد العناوين', String(total)], ['عدد الأجهزة الصالحة', String(hosts)], ['نوع العنوان', kind]];
+      out.innerHTML = rows.map(function (r) { return '<dt>' + esc(r[0]) + '</dt><dd>' + esc(r[1]) + '</dd>'; }).join('');
+    }
+    $('#sn-ip').addEventListener('input', calc); $('#sn-p').addEventListener('input', calc); calc();
+  };
 })();
