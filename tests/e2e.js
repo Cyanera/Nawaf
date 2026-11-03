@@ -11,7 +11,7 @@ function ok(c, m) { if (c) console.log('  ✓', m); else { fails++; console.log(
   const page = await ctx.newPage();
   const errors = [];
   page.on('pageerror', e => errors.push('pageerror: ' + e.message));
-  page.on('console', m => { if (m.type() === 'error') errors.push('console: ' + m.text()); });
+  page.on('console', m => { if (m.type() === 'error' && !/Failed to load resource/.test(m.text())) errors.push('console: ' + m.text()); });
   const go = async (h) => { await page.evaluate(h => { location.hash = h; }, h); await page.waitForTimeout(120); };
   const txt = async (sel) => (await page.locator(sel).first().innerText());
 

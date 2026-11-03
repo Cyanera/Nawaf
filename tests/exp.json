@@ -1,0 +1,342 @@
+{
+  "app": "nawaf-learning",
+  "exportedAt": "2026-11-03T18:32:15.908Z",
+  "v": 1,
+  "created": 1793730725600,
+  "days": {
+    "2026-11-03": [
+      {
+        "k": "placement",
+        "l": "أنهيتَ التقييم المبدئي",
+        "t": 1793730726511
+      },
+      {
+        "k": "lesson:L4:exercise",
+        "l": "أكملتَ تمرين «عنوان IPv4: الخاص والعام وAPIPA»",
+        "t": 1793730726915
+      },
+      {
+        "k": "lesson:L4:interview",
+        "l": "تدرّبتَ على سؤال مقابلة «عنوان IPv4: الخاص والعام وAPIPA»",
+        "t": 1793730727046
+      },
+      {
+        "k": "lesson:L4:quiz",
+        "l": "أنهيتَ اختبار «عنوان IPv4: الخاص والعام وAPIPA»",
+        "t": 1793730727462
+      },
+      {
+        "k": "cards:studied",
+        "l": "أنهيتَ جلسة بطاقات (3)",
+        "t": 1793730728493
+      },
+      {
+        "k": "review:L1-q0,L1-q1,L1-q2,L2-q1,L2-q2,L3-q0,L3-q1,L3-q2",
+        "l": "أنهيتَ مراجعة 8 أسئلة",
+        "t": 1793730729461
+      },
+      {
+        "k": "lab:lab5",
+        "l": "نفّذتَ مختبر «تشخيص اتصال حاسوبك خطوة بخطوة»",
+        "t": 1793730730158
+      },
+      {
+        "k": "mock:2026-11-03:m-intro,m-L1,m-L4,m-L9,m-L11,m-L13,m-b1,m-b6,m-u2,m-ask",
+        "l": "أنهيتَ مقابلة تجريبية",
+        "t": 1793730735708
+      }
+    ]
+  },
+  "lessons": {
+    "L4": {
+      "status": "review",
+      "box": 0,
+      "due": "2026-11-03",
+      "seen": {
+        "L4-q0": 1,
+        "L4-q1": 1,
+        "L4-q2": 1
+      },
+      "ex": "محاولتي",
+      "exDone": true,
+      "iv": "",
+      "ivDone": true,
+      "quizDone": true,
+      "quizLast": {
+        "day": "2026-11-03",
+        "ok": 1,
+        "total": 3
+      }
+    },
+    "L1": {
+      "status": "learning",
+      "box": 0,
+      "due": "2026-11-03",
+      "seen": {
+        "L1-q1": 1,
+        "L1-q0": 1,
+        "L1-q2": 1
+      },
+      "ex": "",
+      "exDone": false,
+      "iv": "",
+      "ivDone": false,
+      "quizDone": false,
+      "quizLast": null
+    },
+    "L3": {
+      "status": "learning",
+      "box": 0,
+      "due": "2026-11-03",
+      "seen": {
+        "L3-q2": 1,
+        "L3-q1": 1,
+        "L3-q0": 1
+      },
+      "ex": "",
+      "exDone": false,
+      "iv": "",
+      "ivDone": false,
+      "quizDone": false,
+      "quizLast": null
+    },
+    "L2": {
+      "status": "learning",
+      "box": 0,
+      "due": "2026-11-03",
+      "seen": {
+        "L2-q2": 1,
+        "L2-q1": 1
+      },
+      "ex": "",
+      "exDone": false,
+      "iv": "",
+      "ivDone": false,
+      "quizDone": false,
+      "quizLast": null
+    },
+    "L9": {
+      "status": "new",
+      "box": 0,
+      "due": "2026-11-03",
+      "seen": {},
+      "ex": "",
+      "exDone": false,
+      "iv": "",
+      "ivDone": false,
+      "quizDone": false,
+      "quizLast": null
+    },
+    "L11": {
+      "status": "new",
+      "box": 0,
+      "due": "2026-11-03",
+      "seen": {},
+      "ex": "",
+      "exDone": false,
+      "iv": "",
+      "ivDone": false,
+      "quizDone": false,
+      "quizLast": null
+    },
+    "L13": {
+      "status": "new",
+      "box": 0,
+      "due": "2026-11-03",
+      "seen": {},
+      "ex": "",
+      "exDone": false,
+      "iv": "",
+      "ivDone": false,
+      "quizDone": false,
+      "quizLast": null
+    }
+  },
+  "labs": {
+    "lab5": {
+      "hints": 1,
+      "solution": true,
+      "checks": [
+        true,
+        true,
+        true,
+        true
+      ],
+      "done": true,
+      "afterSolution": true,
+      "doneOn": "2026-11-03"
+    },
+    "lab1": {
+      "hints": 0,
+      "solution": false,
+      "checks": [],
+      "done": false,
+      "afterSolution": false,
+      "doneOn": null
+    }
+  },
+  "cards": {
+    "L4-c1": {
+      "k": 0,
+      "u": 1
+    },
+    "L4-c0": {
+      "k": 0,
+      "u": 1
+    },
+    "L4-c2": {
+      "k": 0,
+      "u": 1
+    }
+  },
+  "placement": {
+    "day": "2026-11-03",
+    "answers": {
+      "P1": "idk",
+      "P2": "ok",
+      "P3": "wrong",
+      "P4": "idk",
+      "P5": "wrong",
+      "P6": "wrong",
+      "P7": "idk",
+      "P8": "wrong",
+      "P9": "wrong",
+      "P10": "idk"
+    },
+    "score": {
+      "M1": 1,
+      "M2": 0,
+      "M3": 0,
+      "M4": 0,
+      "M5": 0
+    },
+    "order": [
+      "M2",
+      "M3",
+      "M4",
+      "M5",
+      "M1"
+    ]
+  },
+  "placementSkipped": false,
+  "interview": {
+    "drafts": {
+      "introAr": "تعريف جديد من نواف كلمة كلمة كلمة كلمة كلمة كلمة كلمة كلمة كلمة كلمة كلمة كلمة كلمة كلمة كلمة كلمة كلمة كلمة كلمة كلمة "
+    },
+    "checks": {
+      "ask": [],
+      "inperson": [],
+      "remote": []
+    },
+    "practiced": {},
+    "mocks": [
+      {
+        "day": "2026-11-03",
+        "items": [
+          {
+            "id": "m-intro",
+            "idea": "part",
+            "clarity": "part",
+            "example": "part",
+            "brief": "part",
+            "hit": 0,
+            "total": 4
+          },
+          {
+            "id": "m-L1",
+            "idea": "part",
+            "clarity": "part",
+            "example": "part",
+            "brief": "part",
+            "hit": 0,
+            "total": 3
+          },
+          {
+            "id": "m-L4",
+            "idea": "part",
+            "clarity": "part",
+            "example": "part",
+            "brief": "part",
+            "hit": 0,
+            "total": 3
+          },
+          {
+            "id": "m-L9",
+            "idea": "part",
+            "clarity": "part",
+            "example": "part",
+            "brief": "part",
+            "hit": 0,
+            "total": 3
+          },
+          {
+            "id": "m-L11",
+            "idea": "part",
+            "clarity": "part",
+            "example": "part",
+            "brief": "part",
+            "hit": 0,
+            "total": 3
+          },
+          {
+            "id": "m-L13",
+            "idea": "part",
+            "clarity": "part",
+            "example": "part",
+            "brief": "part",
+            "hit": 0,
+            "total": 3
+          },
+          {
+            "id": "m-b1",
+            "idea": "part",
+            "clarity": "part",
+            "example": "part",
+            "brief": "part",
+            "hit": 0,
+            "total": 3
+          },
+          {
+            "id": "m-b6",
+            "idea": "part",
+            "clarity": "part",
+            "example": "part",
+            "brief": "part",
+            "hit": 0,
+            "total": 3
+          },
+          {
+            "id": "m-u2",
+            "idea": "part",
+            "clarity": "part",
+            "example": "part",
+            "brief": "part",
+            "hit": 0,
+            "total": 3
+          },
+          {
+            "id": "m-ask",
+            "idea": "part",
+            "clarity": "part",
+            "example": "part",
+            "brief": "part",
+            "hit": 0,
+            "total": 3
+          }
+        ]
+      }
+    ],
+    "qdone": {}
+  },
+  "ach": {
+    "a_ex": "2026-11-03",
+    "a_rev": "2026-11-03",
+    "a_lab": "2026-11-03",
+    "a_intro": "2026-11-03",
+    "a_mock": "2026-11-03"
+  },
+  "qlog": {
+    "answered": 11,
+    "correct": 4
+  }
+}
