@@ -1,0 +1,12 @@
+const { chromium } = require('playwright'); const path=require('path');
+const URL='file://'+path.resolve(__dirname,'..','index.html');
+(async()=>{const b=await chromium.launch();
+ const c=await b.newContext({viewport:{width:1100,height:900}}); const p=await c.newPage();
+ await p.goto(URL); await p.waitForTimeout(300);
+ await p.screenshot({path:'/tmp/claude-0/-home-user-Nawaf/585e9f38-2fd5-5cbd-bf15-a8d20aff6242/scratchpad/home.png'});
+ await p.evaluate(()=>location.hash='#/lesson/L5'); await p.waitForTimeout(300);
+ await p.screenshot({path:'/tmp/claude-0/-home-user-Nawaf/585e9f38-2fd5-5cbd-bf15-a8d20aff6242/scratchpad/lesson.png',fullPage:true});
+ const m=await b.newContext({viewport:{width:375,height:800},deviceScaleFactor:2}); const q=await m.newPage();
+ await q.goto(URL); await q.waitForTimeout(300);
+ await q.screenshot({path:'/tmp/claude-0/-home-user-Nawaf/585e9f38-2fd5-5cbd-bf15-a8d20aff6242/scratchpad/m-home.png'});
+ await b.close();})();
