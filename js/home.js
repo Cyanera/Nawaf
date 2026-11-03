@@ -21,13 +21,13 @@
     if (Store.memoryOnly()) h += '<div class="callout warn"><strong>تنبيه</strong><p>التخزين المحلي غير متاح في هذا المتصفح (ربما بسبب الوضع الخاص). لن يُحفظ تقدّمك بعد إغلاق الصفحة. استخدم «تصدير التقدّم» من صفحة «تقدّمي» لحفظ نسخة.</p></div>';
     if (!S().placement && !S().placementSkipped) {
       h += '<div class="card"><h2>تقييم مبدئي خفيف (اختياري)</h2><p>10 أسئلة قصيرة تقترح بما تبدأ المراجعة. لا شيء يُحسب عليك، ويمكنك تخطّيه.</p>' +
-        '<div class="row"><a class="btn" href="#/placement">ابدأ التقييم</a><button class="btn btn-ghost" id="skip-pl">تخطَّ وابدأ مباشرة</button></div></div>';
+        '<div class="row"><a class="btn" href="#placement">ابدأ التقييم</a><button class="btn btn-ghost" id="skip-pl">تخطَّ وابدأ مباشرة</button></div></div>';
     }
     h += '<div class="grid3">';
     h += '<section class="card"><h2>الخطوة التالية</h2>';
-    if (next) h += '<p><strong>' + inl(next.title) + '</strong></p><p class="muted small">' + esc(MOD[next.module].title) + ' · ' + next.minutes + ' دقائق تقريبًا</p><a class="btn" href="#/lesson/' + next.id + '">' + (App.status(next.id) === 'learning' ? 'تابع الدرس' : 'ابدأ الدرس') + '</a>';
-    else h += '<p>بدأتَ كل الدروس. الخطوة المفيدة الآن: مقابلة تجريبية أو مختبر عملي.</p><a class="btn" href="#/mock">مقابلة تجريبية</a>';
-    if (due) h += '<p class="small muted">لديك ' + due + ' مفهومًا للمراجعة. <a href="#/review">راجعها</a></p>';
+    if (next) h += '<p><strong>' + inl(next.title) + '</strong></p><p class="muted small">' + esc(MOD[next.module].title) + ' · ' + next.minutes + ' دقائق تقريبًا</p><a class="btn" href="#lesson-' + next.id + '">' + (App.status(next.id) === 'learning' ? 'تابع الدرس' : 'ابدأ الدرس') + '</a>';
+    else h += '<p>بدأتَ كل الدروس. الخطوة المفيدة الآن: مقابلة تجريبية أو مختبر عملي.</p><a class="btn" href="#mock">مقابلة تجريبية</a>';
+    if (due) h += '<p class="small muted">لديك ' + due + ' مفهومًا للمراجعة. <a href="#review">راجعها</a></p>';
     h += '</section>';
     h += '<section class="card"><h2>أيام التعلّم المتتالية</h2><p class="bignum">' + msg.big + '</p><p class="muted small">' + esc(msg.text) + '</p>' + (st.longest > 1 ? '<p class="small muted">أطول سلسلة لك: ' + st.longest + ' أيام.</p>' : '') + '</section>';
     h += '<section class="card"><h2>تقدّمك الفعلي</h2><p><strong>' + c.mastered + '</strong> من ' + D.lessons.length + ' دروس بحالة «أتقنته»</p>' + statusBar(c) +
@@ -36,7 +36,7 @@
     h += '</div>';
     h += '<p class="muted small note">يُحفظ تقدّمك محليًا على هذا الجهاز وهذا المتصفح فقط (LocalStorage)، ولا يُرسل إلى أي جهة. لنقله إلى جهاز آخر استخدم «تصدير التقدّم» في صفحة «تقدّمي».</p>';
     App.mount(h, { title: 'ابدأ من هنا' });
-    $('#go-session').addEventListener('click', function () { location.hash = '#/session'; });
+    $('#go-session').addEventListener('click', function () { location.hash = '#session'; });
     var sk = $('#skip-pl'); if (sk) sk.addEventListener('click', function () { S().placementSkipped = true; Store.save(); App.views.home(); });
   };
 
@@ -88,7 +88,7 @@
         App.renderLesson(body, s.id, { parts: ['title', 'interview', 'mistake'], onEvent: function (e) { if (e === 'interview') mark(); } });
         if (Store.lesson(s.id).ivDone) mark();
       } else {
-        body.innerHTML = '<h2>لا يوجد شيء مستحق</h2><p>جرّب مقابلة تجريبية أو مختبرًا عمليًا.</p><a class="btn btn-primary" href="#/mock">مقابلة تجريبية</a> <a class="btn" href="#/labs">المختبر</a>';
+        body.innerHTML = '<h2>لا يوجد شيء مستحق</h2><p>جرّب مقابلة تجريبية أو مختبرًا عمليًا.</p><a class="btn btn-primary" href="#mock">مقابلة تجريبية</a> <a class="btn" href="#labs">المختبر</a>';
         mark();
       }
       window.scrollTo(0, 0);
@@ -97,7 +97,7 @@
       var acts = S().days[Store.day()] || [], msg = App.streakMessage();
       $('#s-steps').hidden = true; $('#s-meta').hidden = true;
       $('#sbody').innerHTML = '<h2>انتهت جلسة اليوم</h2>' + (acts.length ? '<p>المسجَّل لك اليوم:</p><ul>' + acts.map(function (a) { return '<li>' + esc(a.l) + '</li>'; }).join('') + '</ul>' : '<p>لم يُسجَّل نشاط اليوم لأن الخطوات تُركت دون إكمال. لا بأس، ابدأ بخطوة واحدة متى شئت.</p>') +
-        '<p class="muted">' + esc('السلسلة: ' + msg.big + ' ' + msg.text) + '</p><a class="btn btn-primary" href="#/home">العودة للرئيسية</a>';
+        '<p class="muted">' + esc('السلسلة: ' + msg.big + ' ' + msg.text) + '</p><a class="btn btn-primary" href="#home">العودة للرئيسية</a>';
       document.querySelector('.row.between').hidden = true;
     }
     $('#s-next').addEventListener('click', function () { if (!done) return; i++; if (i >= steps.length) finish(); else show(); });
@@ -132,16 +132,38 @@
     }).join('') + '</ul></section>';
 
     h += '<section class="card"><h2>بياناتي</h2><p>يُحفظ تقدّمك في متصفحك هذا فقط. إذا مسحتَ بيانات الموقع أو غيّرتَ الجهاز فسيختفي، لذلك يُنصح بتصدير نسخة احتياطية بين فترة وأخرى.</p>' +
-      '<div class="row wrap"><button class="btn" id="exp">تصدير التقدّم (ملف JSON)</button><label class="btn" for="imp" tabindex="0" id="imp-l">استيراد تقدّم</label><input type="file" id="imp" accept="application/json,.json" hidden><button class="btn btn-danger" id="rst">إعادة ضبط كل شيء</button></div><p class="small muted" id="data-msg" role="status"></p></section>';
+      '<div class="row wrap"><button class="btn" id="exp">تصدير التقدّم (ملف JSON)</button><label class="btn" for="imp" tabindex="0" id="imp-l">استيراد تقدّم</label><input type="file" id="imp" accept="application/json,.json" hidden><button class="btn btn-danger" id="rst">إعادة ضبط كل شيء</button></div><p class="small muted" id="data-msg" role="status"></p>' +
+      '<div id="exp-box" hidden><label class="lbl" for="exp-t">نسخة تقدّمك (انسخها واحفظها في ملاحظات أو رسالة لنفسك)</label><textarea id="exp-t" rows="5" readonly></textarea><button class="btn" id="exp-copy">انسخ النص</button></div>' +
+      '<label class="lbl" for="imp-t">استيراد من نص منسوخ</label><textarea id="imp-t" rows="3" placeholder="الصق هنا نسخة التقدّم"></textarea><button class="btn" id="imp-go">استورد النص</button></section>';
     App.mount(h, { title: 'تقدّمي' });
 
     var msg = $('#data-msg');
+    function tryImport(text) {
+      var obj;
+      try { obj = JSON.parse(text); if (!obj || obj.v !== 1 || typeof obj.days !== 'object') throw new Error('bad'); }
+      catch (err) { msg.textContent = 'النص غير صالح: لم يُغيَّر أي شيء.'; return; }
+      UI.confirmDialog({ title: 'استيراد التقدّم؟', body: 'سيحل التقدّم المستورد محل تقدّمك الحالي على هذا الجهاز.', yes: 'استبدل', danger: true }).then(function (ok) {
+        if (!ok) return;
+        try { Store.importObj(obj); App.checkAch(); UI.toast('تم استيراد التقدّم'); App.views.progress(); } catch (er) { msg.textContent = 'تعذّر الاستيراد.'; }
+      });
+    }
     $('#exp').addEventListener('click', function () {
-      var blob = new Blob([Store.exportJSON()], { type: 'application/json' }), a = document.createElement('a');
-      a.href = URL.createObjectURL(blob); a.download = 'nawaf-progress-' + Store.day() + '.json';
-      document.body.appendChild(a); a.click(); a.remove(); setTimeout(function () { URL.revokeObjectURL(a.href); }, 500);
-      msg.textContent = 'تم تجهيز ملف التقدّم للتنزيل.';
+      var json = Store.exportJSON();
+      var box = $('#exp-box'); box.hidden = false; $('#exp-t').value = json;
+      try {
+        var blob = new Blob([json], { type: 'application/json' }), a = document.createElement('a');
+        a.href = URL.createObjectURL(blob); a.download = 'nawaf-progress-' + Store.day() + '.json';
+        document.body.appendChild(a); a.click(); a.remove(); setTimeout(function () { URL.revokeObjectURL(a.href); }, 500);
+      } catch (e) { }
+      msg.textContent = 'جُهّز التقدّم. إن لم يبدأ التنزيل فانسخ النص الظاهر أدناه واحفظه.';
     });
+    $('#exp-copy').addEventListener('click', function () {
+      var t = $('#exp-t'); t.focus(); t.select();
+      function ok() { UI.toast('نُسخ النص'); }
+      if (navigator.clipboard && navigator.clipboard.writeText) navigator.clipboard.writeText(t.value).then(ok, function () { try { document.execCommand('copy'); ok(); } catch (e) { } });
+      else { try { document.execCommand('copy'); ok(); } catch (e) { } }
+    });
+    $('#imp-go').addEventListener('click', function () { tryImport($('#imp-t').value); });
     $('#imp-l').addEventListener('keydown', function (e) { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); $('#imp').click(); } });
     $('#imp').addEventListener('change', function (e) {
       var f = e.target.files[0]; if (!f) return;
@@ -159,7 +181,7 @@
     });
     $('#rst').addEventListener('click', function () {
       UI.confirmDialog({ title: 'إعادة ضبط كل شيء؟', body: 'سيُمسح كل تقدّمك ومسوداتك على هذا الجهاز ولا يمكن التراجع. إن أردت الاحتفاظ بنسخة فصدّر التقدّم أولًا.', yes: 'نعم، امسح كل شيء', danger: true }).then(function (ok) {
-        if (!ok) return; Store.reset(); UI.toast('أُعيد الضبط'); location.hash = '#/home'; App.views.home();
+        if (!ok) return; Store.reset(); UI.toast('أُعيد الضبط'); location.hash = '#home'; App.views.home();
       });
     });
   };

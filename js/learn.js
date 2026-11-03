@@ -22,7 +22,7 @@
       h += '<h3>للمراجعة</h3><ul class="plain">' + missed.map(function (r) {
         var l = r.lesson ? LES[r.lesson] : null;
         return '<li><div>' + inl(r.q.q) + '</div><div class="small">الإجابة الصحيحة: ' + inl(r.correctText) + '</div><div class="small muted">' + inl(r.explain || '') + '</div>' +
-          (l ? '<a class="small" href="#/lesson/' + l.id + '">راجع درس «' + esc(l.title) + '»</a>' : '') + '</li>';
+          (l ? '<a class="small" href="#lesson-' + l.id + '">راجع درس «' + esc(l.title) + '»</a>' : '') + '</li>';
       }).join('') + '</ul>';
     }
     return h;
@@ -37,7 +37,7 @@
     var h = '';
     if (has('head')) {
       var m = MOD[L.module];
-      h += '<header class="lesson-head"><p class="crumb"><a href="#/path">المسار</a> › ' + esc(m.title) + '</p><h1>' + inl(L.title) + '</h1>' +
+      h += '<header class="lesson-head"><p class="crumb"><a href="#path">المسار</a> › ' + esc(m.title) + '</p><h1>' + inl(L.title) + '</h1>' +
         '<p class="meta">' + cvBadge(L) + '<span class="badge plain">' + L.minutes + ' دقائق تقريبًا</span></p><p class="muted small">' + esc(L.cvNote) + '</p>' +
         '<fieldset class="seg" id="st"><legend>حالتك مع هذا الدرس</legend>' + App.STATUS_ORDER.map(function (s) {
           return '<label class="seg-i"><input type="radio" name="st" value="' + s + '"' + (rec.status === s ? ' checked' : '') + '><span>' + App.STATUS[s] + '</span></label>';
@@ -71,8 +71,8 @@
     if (has('refs') && L.refs.length) h += sec('↗', 'للتوسّع (مصادر رسمية)', App.refsHTML(L.refs) + '<p class="muted small">الروابط تفتح صفحات خارجية، وقد تتغيّر مساراتها مع الوقت.</p>');
     if (has('nav')) {
       var prev = D.lessons[L.idx - 1], next = D.lessons[L.idx + 1];
-      h += '<nav class="pager" aria-label="التنقل بين الدروس">' + (prev ? '<a class="btn" href="#/lesson/' + prev.id + '">→ ' + esc(prev.title) + '</a>' : '<span></span>') +
-        (next ? '<a class="btn" href="#/lesson/' + next.id + '">' + esc(next.title) + ' ←</a>' : '<span></span>') + '</nav>';
+      h += '<nav class="pager" aria-label="التنقل بين الدروس">' + (prev ? '<a class="btn" href="#lesson-' + prev.id + '">→ ' + esc(prev.title) + '</a>' : '<span></span>') +
+        (next ? '<a class="btn" href="#lesson-' + next.id + '">' + esc(next.title) + ' ←</a>' : '<span></span>') + '</nav>';
     }
     root.innerHTML = h;
     function ev(name) { opts.onEvent && opts.onEvent(name); }
@@ -158,7 +158,7 @@
 
   App.views.lesson = function (id) {
     var L = LES[id];
-    if (!L) { App.mount('<h1>الدرس غير موجود</h1><p><a href="#/path">العودة إلى المسار</a></p>'); return; }
+    if (!L) { App.mount('<h1>الدرس غير موجود</h1><p><a href="#path">العودة إلى المسار</a></p>'); return; }
     App.mount('<article id="lesson-root"></article>', { title: L.title });
     App.renderLesson($('#lesson-root'), id, {});
     var h = $('#lesson-root h1'); if (h) { h.setAttribute('tabindex', '-1'); h.focus({ preventScroll: true }); }
@@ -169,13 +169,13 @@
     var next = App.nextLesson(), c = App.counts(), p = S().placement;
     var h = '<h1>مسار مراجعة الأساسيات</h1><p class="lead">خمس وحدات، كل درس يأخذ 8–12 دقيقة، ويمكنك إنجازه على جلستين. الترتيب إرشادي؛ ابدأ من أي درس.</p>';
     h += '<div class="card row between wrap"><div><strong>' + c.mastered + ' من ' + D.lessons.length + ' دروس بحالة «أتقنته»</strong><div class="muted small">قيد التعلّم: ' + c.learning + ' · أحتاج مراجعة: ' + c.review + ' · لم أبدأ: ' + c['new'] + '</div></div>' +
-      (next ? '<a class="btn btn-primary" href="#/lesson/' + next.id + '">' + (App.status(next.id) === 'learning' ? 'تابع: ' : 'ابدأ: ') + esc(next.title) + '</a>' : '') + '</div>';
-    h += '<p class="muted small"><span class="badge cv">مذكور في سيرتك</span> الموضوع وارد في سيرتك. <span class="badge sug">أساسية مقترحة</span> أساسيات نقترح مراجعتها استعدادًا للعمل، ولم تُذكر صراحة في السيرة. وورودها في السيرة لا يعني أنك أتقنتها؛ تحقق بنفسك. <a href="#/cv">كيف بُني المسار؟</a>' + (p ? ' ترتيب الوحدات يراعي نتيجة تقييمك المبدئي.' : '') + '</p>';
+      (next ? '<a class="btn btn-primary" href="#lesson-' + next.id + '">' + (App.status(next.id) === 'learning' ? 'تابع: ' : 'ابدأ: ') + esc(next.title) + '</a>' : '') + '</div>';
+    h += '<p class="muted small"><span class="badge cv">مذكور في سيرتك</span> الموضوع وارد في سيرتك. <span class="badge sug">أساسية مقترحة</span> أساسيات نقترح مراجعتها استعدادًا للعمل، ولم تُذكر صراحة في السيرة. وورودها في السيرة لا يعني أنك أتقنتها؛ تحقق بنفسك. <a href="#cv">كيف بُني المسار؟</a>' + (p ? ' ترتيب الوحدات يراعي نتيجة تقييمك المبدئي.' : '') + '</p>';
     App.modOrder().forEach(function (mid) {
       var m = MOD[mid];
       h += '<section class="module"><h2>' + esc(m.title) + '</h2><p class="muted">' + esc(m.blurb) + '</p><ol class="lessons">';
       D.lessons.filter(function (l) { return l.module === mid; }).forEach(function (l) {
-        h += '<li><a class="lesson-row" href="#/lesson/' + l.id + '"><span class="lr-t">' + inl(l.title) + '</span><span class="lr-m">' + cvBadge(l) + ' ' + App.badge(App.status(l.id)) + '<span class="small muted">' + l.minutes + ' د</span></span></a></li>';
+        h += '<li><a class="lesson-row" href="#lesson-' + l.id + '"><span class="lr-t">' + inl(l.title) + '</span><span class="lr-m">' + cvBadge(l) + ' ' + App.badge(App.status(l.id)) + '<span class="small muted">' + l.minutes + ' د</span></span></a></li>';
       });
       h += '</ol></section>';
     });
@@ -191,7 +191,7 @@
     h += '<h2>الربط بين السيرة والدروس</h2><div class="table-wrap"><table><thead><tr><th>البند</th><th>النوع</th><th>الدروس</th><th>ملاحظة</th></tr></thead><tbody>';
     cv.items.forEach(function (it) {
       h += '<tr><td>' + esc(it.cv) + '</td><td>' + (it.kind === 'cv' ? '<span class="badge cv">مذكور في السيرة</span>' : '<span class="badge sug">مقترح للمراجعة</span>') + '</td><td>' +
-        (it.lessons.length ? it.lessons.map(function (id) { return '<a href="#/lesson/' + id + '">' + esc(LES[id].title) + '</a>'; }).join('<br>') : '—') + '</td><td>' + esc(it.note) + '</td></tr>';
+        (it.lessons.length ? it.lessons.map(function (id) { return '<a href="#lesson-' + id + '">' + esc(LES[id].title) + '</a>'; }).join('<br>') : '—') + '</td><td>' + esc(it.note) + '</td></tr>';
     });
     h += '</tbody></table></div>';
     App.mount(h, { title: 'من سيرتك' });
@@ -202,7 +202,7 @@
     var p = S().placement;
     var h = '<h1>تقييم مبدئي خفيف</h1>';
     h += '<p class="lead">10 أسئلة قصيرة (نحو 5 دقائق) لترتيب ما تراجعه أولًا. اختر «لا أتذكر» متى شئت؛ لا شيء يُحسب عليك. ليس اختبارًا رسميًا ولا قياسًا نهائيًا لمستواك أو جاهزيتك للعمل. التوضيحات تظهر بعد الانتهاء.</p>';
-    h += '<div id="pl"></div><div class="row"><a class="btn btn-ghost" href="#/home" id="skip-pl">تخطَّ وابدأ مباشرة</a></div>';
+    h += '<div id="pl"></div><div class="row"><a class="btn btn-ghost" href="#home" id="skip-pl">تخطَّ وابدأ مباشرة</a></div>';
     App.mount(h, { title: 'التقييم المبدئي' });
     var box = $('#pl');
     if (p) renderPlacementResult(box, p, true); else startPlacement(box);
@@ -244,7 +244,7 @@
       var st = p.answers[q.id];
       h += '<li><div>' + inl(q.q) + '</div><div class="small">' + (st === 'ok' ? 'أجبتَ صحيحًا.' : st === 'idk' ? 'اخترتَ «لا أتذكر».' : 'إجابتك لم تكن الصحيحة.') + ' الصحيح: ' + inl(q.o[q.a]) + '</div><div class="small muted">' + inl(q.e) + '</div></li>';
     });
-    h += '</ul><div class="row"><a class="btn btn-primary" href="#/path">اذهب إلى المسار</a>' + (again ? '<button class="btn" id="pl-redo">أعد التقييم</button>' : '') + '</div>';
+    h += '</ul><div class="row"><a class="btn btn-primary" href="#path">اذهب إلى المسار</a>' + (again ? '<button class="btn" id="pl-redo">أعد التقييم</button>' : '') + '</div>';
     box.innerHTML = h;
     var sk = $('#skip-pl'); if (sk) sk.style.display = 'none';
     var rd = $('#pl-redo'); if (rd) rd.addEventListener('click', function () { startPlacement(box); var s2 = $('#skip-pl'); if (s2) s2.style.display = ''; $('#pl-go').click(); });
@@ -274,7 +274,7 @@
       '<button class="btn btn-primary" id="rv-due">' + (due ? 'راجع الآن (حتى 8 أسئلة)' : 'لا شيء مستحق الآن') + '</button>' +
       '<p class="muted small">تظهر المفاهيم التي بدأتَها فقط. ابدأ درسًا أولًا إن لم يكن لديك شيء.</p></div>' +
       '<div class="card"><h2>مراجعة اختيارية</h2><label class="lbl" for="rv-mod">راجع وحدة</label><select id="rv-mod">' + modOpts + '</select><button class="btn" id="rv-m">ابدأ أسئلة الوحدة</button>' +
-      '<p class="muted small">أو <a href="#/cards">بطاقات الاسترجاع</a> لتدريب سريع على التذكّر.</p></div></div>';
+      '<p class="muted small">أو <a href="#cards">بطاقات الاسترجاع</a> لتدريب سريع على التذكّر.</p></div></div>';
     h += '<div id="rv-run" class="card" hidden></div>';
     App.mount(h, { title: 'المراجعة' });
     var run = $('#rv-run');

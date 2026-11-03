@@ -21,9 +21,9 @@
     h += '<ul class="labs">';
     D.labs.forEach(function (l, i) {
       var st = labState(l.id);
-      h += '<li class="card lab-card"><div class="row between wrap"><h2><a href="#/lab/' + l.id + '">' + (i + 1) + '. ' + esc(l.title) + '</a></h2><span class="badge lab-' + st.k + '">' + st.t + '</span></div>' +
+      h += '<li class="card lab-card"><div class="row between wrap"><h2><a href="#lab-' + l.id + '">' + (i + 1) + '. ' + esc(l.title) + '</a></h2><span class="badge lab-' + st.k + '">' + st.t + '</span></div>' +
         '<p class="meta"><span class="badge plain">' + TYPE[l.type] + '</span><span class="badge plain">' + l.minutes + ' دقيقة تقريبًا</span></p><p>' + esc(l.scenario) + '</p>' +
-        '<p class="small muted">يرتبط بدروس: ' + l.lessons.map(function (id) { return '<a href="#/lesson/' + id + '">' + esc(LES[id].title) + '</a>'; }).join('، ') + '</p></li>';
+        '<p class="small muted">يرتبط بدروس: ' + l.lessons.map(function (id) { return '<a href="#lesson-' + id + '">' + esc(LES[id].title) + '</a>'; }).join('، ') + '</p></li>';
     });
     h += '</ul>';
     App.mount(h, { title: 'المختبر' });
@@ -31,9 +31,9 @@
 
   App.views.lab = function (id) {
     var lab = LAB[id];
-    if (!lab) { App.mount('<h1>المختبر غير موجود</h1><p><a href="#/labs">العودة</a></p>'); return; }
+    if (!lab) { App.mount('<h1>المختبر غير موجود</h1><p><a href="#labs">العودة</a></p>'); return; }
     var rec = Store.lab(id), n = D.labs.indexOf(lab) + 1;
-    var h = '<p class="crumb"><a href="#/labs">المختبر</a> › مختبر ' + n + '</p><h1>' + esc(lab.title) + '</h1>' +
+    var h = '<p class="crumb"><a href="#labs">المختبر</a> › مختبر ' + n + '</p><h1>' + esc(lab.title) + '</h1>' +
       '<p class="meta"><span class="badge plain">' + TYPE[lab.type] + '</span><span class="badge plain">' + lab.minutes + ' دقيقة تقريبًا</span><span class="badge" id="lab-badge"></span></p>';
     h += '<div class="callout warn"><strong>ما تحتاجه</strong><p>' + inl(lab.needs) + '</p></div>';
     h += '<section class="step"><h2>السيناريو</h2><p>' + inl(lab.scenario) + '</p></section>';
@@ -42,7 +42,7 @@
     h += '<section class="step"><h2>الحل وطريقة التفكير</h2><div id="sol"><p class="muted">جرّب أولًا قدر استطاعتك، ثم اطّلع على الحل. يُسجَّل اطلاعك عليه حتى تعرف لاحقًا هل نفّذت التمرين بنفسك.</p><button class="btn" id="sol-b">اعرض الحل</button></div></section>';
     h += '<section class="step"><h2>قائمة التحقق</h2><p class="muted small">علّم كل بند بعد أن تنفّذه فعلًا.</p><div id="chk">' + lab.checklist.map(function (c, i) { return '<label class="check"><input type="checkbox" data-i="' + i + '"> ' + inl(c) + '</label>'; }).join('') + '</div>' +
       '<button class="btn btn-primary" id="done-b" disabled>سجّلتُ أنني نفّذتُ التمرين بنفسي</button><p class="muted small" id="done-note"></p></section>';
-    h += '<p class="small muted">دروس ذات صلة: ' + lab.lessons.map(function (x) { return '<a href="#/lesson/' + x + '">' + esc(LES[x].title) + '</a>'; }).join('، ') + '</p>';
+    h += '<p class="small muted">دروس ذات صلة: ' + lab.lessons.map(function (x) { return '<a href="#lesson-' + x + '">' + esc(LES[x].title) + '</a>'; }).join('، ') + '</p>';
     App.mount(h, { title: 'مختبر: ' + lab.title });
 
     function badge() { var st = labState(id); var b = $('#lab-badge'); b.className = 'badge lab-' + st.k; b.textContent = st.t; }
@@ -127,7 +127,7 @@
   App.views.interview = function (tab) {
     tab = TABS.some(function (t) { return t[0] === tab; }) ? tab : 'intro';
     var h = '<h1>الاستعداد للمقابلات</h1><p class="lead">كل محتوى هذه الصفحة مبني على ما في سيرتك. حيث لا تتوفر التفاصيل تجد قوالب تملؤها أنت بما حدث فعلًا. لا تقل في المقابلة ما لم تفعله.</p>';
-    h += '<nav class="tabs" aria-label="أقسام الاستعداد">' + TABS.map(function (t) { return '<a href="#/interview/' + t[0] + '"' + (t[0] === tab ? ' aria-current="page"' : '') + '>' + t[1] + '</a>'; }).join('') + '<a class="tab-mock" href="#/mock">مقابلة تجريبية ←</a></nav>';
+    h += '<nav class="tabs" aria-label="أقسام الاستعداد">' + TABS.map(function (t) { return '<a href="#interview-' + t[0] + '"' + (t[0] === tab ? ' aria-current="page"' : '') + '>' + t[1] + '</a>'; }).join('') + '<a class="tab-mock" href="#mock">مقابلة تجريبية ←</a></nav>';
     h += '<div id="tab-body"></div>';
     App.mount(h, { title: 'المقابلات' });
     var body = $('#tab-body');
@@ -139,7 +139,7 @@
     h += '<div class="callout"><strong>مسودة مبنية على سيرتك فقط</strong><p>عدّلها بأسلوبك، وأكمل ما بين الأقواس [ ]. كل تعديل يُحفظ تلقائيًا على هذا الجهاز.</p></div>';
     h += draftArea('introAr', 'بالعربية', D.intro.ar, 8) + '<p class="small" id="ar-stat"></p>';
     h += draftArea('introEn', 'English (simple)', D.intro.en, 8) + '<p class="small" id="en-stat"></p>';
-    h += '<p><a class="btn btn-primary" href="#/interview/oral">تدرّب عليها شفهيًا مع مؤقت</a></p>';
+    h += '<p><a class="btn btn-primary" href="#interview-oral">تدرّب عليها شفهيًا مع مؤقت</a></p>';
     root.innerHTML = h;
     function stat(id, out) {
       var t = document.getElementById(id), n = wc(t.value), sec = Math.round(n / 130 * 60);
@@ -165,7 +165,7 @@
         var done = S().interview.qdone[l.id];
         h += '<details class="qa"><summary>' + inl(l.interview.q) + (done ? ' <span class="badge st-mastered">تدرّبتُ ×' + done + '</span>' : '') + '</summary>' +
           '<div class="callout good"><p>' + inl(l.interview.a) + '</p></div><div class="callout"><strong>ما يبحث عنه المحاور</strong><p>' + inl(l.interview.why) + '</p></div>' +
-          '<div class="row"><button class="btn btn-sm" data-qd="' + l.id + '">أجبتُ عنه شفهيًا</button><a class="btn btn-ghost btn-sm" href="#/lesson/' + l.id + '">درس «' + esc(l.title) + '»</a></div></details>';
+          '<div class="row"><button class="btn btn-sm" data-qd="' + l.id + '">أجبتُ عنه شفهيًا</button><a class="btn btn-ghost btn-sm" href="#lesson-' + l.id + '">درس «' + esc(l.title) + '»</a></div></details>';
       });
     });
     root.innerHTML = h;
@@ -195,7 +195,7 @@
     f.phrases.forEach(function (p) { h += '<div class="card"><p>' + esc(p.ar) + '</p><p dir="ltr" class="en">' + esc(p.en) + '</p></div>'; });
     h += '<div class="grid2"><div class="card"><h3>كيف تشرح طريقتك في البحث عن الحل</h3><ol>' + f.how.map(function (x) { return '<li>' + inl(x) + '</li>'; }).join('') + '</ol></div>' +
       '<div class="card"><h3>تجنّب</h3><ul>' + f.dont.map(function (x) { return '<li>' + esc(x) + '</li>'; }).join('') + '</ul></div></div>';
-    h += '<p><a class="btn btn-primary" href="#/mock">جرّب ذلك في المقابلة التجريبية</a></p>';
+    h += '<p><a class="btn btn-primary" href="#mock">جرّب ذلك في المقابلة التجريبية</a></p>';
     root.innerHTML = h;
   }
 
@@ -357,9 +357,9 @@
       else h += '<ul class="plain">' + review.map(function (r) {
         return '<li><strong>' + esc(r.it.q) + '</strong>' + (r.missed.length ? '<div class="small">لم تذكر: ' + r.missed.map(inl).join('، ') + '</div>' : '') +
           (r.idea !== 'yes' ? '<div class="small muted">قيّمتَ صحة الفكرة بـ «' + (r.idea === 'part' ? 'جزئيًا' : 'لا') + '»' + (r.it.lesson ? ' — أُضيف المفهوم إلى مراجعتك القادمة' : '') + '</div>' : '') +
-          (r.it.lesson ? '<a class="small" href="#/lesson/' + r.it.lesson + '">راجع درس «' + esc(LES[r.it.lesson].title) + '»</a>' : '') + '</li>';
+          (r.it.lesson ? '<a class="small" href="#lesson-' + r.it.lesson + '">راجع درس «' + esc(LES[r.it.lesson].title) + '»</a>' : '') + '</li>';
       }).join('') + '</ul>';
-      h += '<div class="row"><button class="btn btn-primary" id="m-again">مقابلة جديدة</button><a class="btn" href="#/interview/intro">عدّل مسوداتك</a></div>';
+      h += '<div class="row"><button class="btn btn-primary" id="m-again">مقابلة جديدة</button><a class="btn" href="#interview-intro">عدّل مسوداتك</a></div>';
       root.innerHTML = h; window.scrollTo(0, 0);
       $('#m-again').addEventListener('click', function () { runMock(root); });
     }
