@@ -1,5 +1,5 @@
 # خط ثمانية
 
-الملفات المستخدمة: `thmanyahseriftext-{Light,Regular,Medium,Bold,Black}.woff2` (عائلة thmanyah serif text)، وهي مُعرَّفة في أعلى `css/style.css` بالأوزان 300/400/500/700/900.
+الملفات: النصوص `thmanyahseriftext-*` (للمحتوى) والعناوين `thmanyahserifdisplay-*` (للعناوين)، بالأوزان Light/Regular/Medium/Bold/Black، ومعرّفة في أعلى `css/style.css`.
 
 ترخيص الخط يسمح باستخدامه في المواقع ولا يسمح بتعديل ملفاته أو إعادة توزيعها؛ فلا تنشر هذا المجلد علنًا خارج موقعك الخاص.

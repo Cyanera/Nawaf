@@ -4,9 +4,16 @@
 @font-face { font-family: 'UserArabicFont'; src: url('../fonts/thmanyahseriftext-Medium.woff2') format('woff2'); font-weight: 500; font-display: swap; }
 @font-face { font-family: 'UserArabicFont'; src: url('../fonts/thmanyahseriftext-Bold.woff2') format('woff2'); font-weight: 700; font-display: swap; }
 @font-face { font-family: 'UserArabicFont'; src: url('../fonts/thmanyahseriftext-Black.woff2') format('woff2'); font-weight: 900; font-display: swap; }
+/* خط العناوين: thmanyah serif display */
+@font-face { font-family: 'UserArabicDisplay'; src: url('../fonts/thmanyahserifdisplay-Light.woff2') format('woff2'); font-weight: 300; font-display: swap; }
+@font-face { font-family: 'UserArabicDisplay'; src: url('../fonts/thmanyahserifdisplay-Regular.woff2') format('woff2'); font-weight: 400; font-display: swap; }
+@font-face { font-family: 'UserArabicDisplay'; src: url('../fonts/thmanyahserifdisplay-Medium.woff2') format('woff2'); font-weight: 500; font-display: swap; }
+@font-face { font-family: 'UserArabicDisplay'; src: url('../fonts/thmanyahserifdisplay-Bold.woff2') format('woff2'); font-weight: 700; font-display: swap; }
+@font-face { font-family: 'UserArabicDisplay'; src: url('../fonts/thmanyahserifdisplay-Black.woff2') format('woff2'); font-weight: 900; font-display: swap; }
 
 :root {
   --font: 'UserArabicFont', 'Noto Sans Arabic', 'Segoe UI', Tahoma, 'Geeza Pro', system-ui, sans-serif;
+  --font-display: 'UserArabicDisplay', 'UserArabicFont', 'Noto Sans Arabic', 'Segoe UI', Tahoma, system-ui, sans-serif;
   --mono: ui-monospace, 'SF Mono', Menlo, Consolas, 'DejaVu Sans Mono', monospace;
   --bg: #f6f5f1; --surface: #ffffff; --surface2: #efede6; --text: #1f2a30; --muted: #5a666d;
   --line: #d9d6cc; --primary: #0f5c63; --primary-ink: #ffffff; --primary-soft: #dcedee;
@@ -27,6 +34,7 @@ html { font-size: 17px; -webkit-text-size-adjust: 100%; }
 body { margin: 0; background: var(--bg); color: var(--text); font-family: var(--font); line-height: 1.85; }
 .wrap { max-width: 920px; margin: 0 auto; padding: 0 16px; }
 main { padding-top: 20px; padding-bottom: 96px; outline: none; }
+h1, h2, h3, .brand, .bignum, .hero .eyebrow { font-family: var(--font-display); }
 h1 { font-size: 1.7rem; line-height: 1.4; margin: .4em 0 .5em; outline: none; }
 h2 { font-size: 1.25rem; line-height: 1.5; margin: 1.4em 0 .5em; }
 h3 { font-size: 1.07rem; margin: 1.2em 0 .4em; }
