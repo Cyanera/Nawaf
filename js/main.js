@@ -1,18 +1,5 @@
 /* التوجيه والإقلاع */
 (function () {
-  /* تحميل تلقائي لخط ثمانية إن وُضعت ملفاته في fonts/ (woff2 أو otf)؛ وإلا يبقى البديل بصمت */
-  (function loadFont() {
-    if (!window.FontFace || !document.fonts) return;
-    [['thmanyah-regular', '400'], ['thmanyah-bold', '700']].forEach(function (f) {
-      var exts = ['woff2', 'otf'];
-      (function next(i) {
-        if (i >= exts.length) return;
-        var ff = new FontFace('UserArabicFont', 'url(fonts/' + f[0] + '.' + exts[i] + ')', { weight: f[1], display: 'swap' });
-        ff.load().then(function () { document.fonts.add(ff); }).catch(function () { next(i + 1); });
-      })(0);
-    });
-  })();
-
   var NAV = { home: 'home', placement: 'home', session: 'home', cv: 'path', path: 'path', lesson: 'path', review: 'review', cards: 'review', labs: 'labs', lab: 'labs', interview: 'interview', mock: 'interview', progress: 'progress' };
 
   function route() {

@@ -1,6 +1,9 @@
-/* خط الواجهة: يستخدم الموقع حاليًا بديلًا عربيًا من خطوط النظام (وليس خط ثمانية).
-   لتفعيل خط ثمانية: ضع ملفي الخط في مجلد fonts/ ثم انقل سطرَي @font-face الموجودين في
-   fonts/README.md إلى هذا الموضع. التفاصيل هناك. */
+/* خط ثمانية (thmanyah serif text) من ملفات woff2 في fonts/ */
+@font-face { font-family: 'UserArabicFont'; src: url('../fonts/thmanyahseriftext-Light.woff2') format('woff2'); font-weight: 300; font-display: swap; }
+@font-face { font-family: 'UserArabicFont'; src: url('../fonts/thmanyahseriftext-Regular.woff2') format('woff2'); font-weight: 400; font-display: swap; }
+@font-face { font-family: 'UserArabicFont'; src: url('../fonts/thmanyahseriftext-Medium.woff2') format('woff2'); font-weight: 500; font-display: swap; }
+@font-face { font-family: 'UserArabicFont'; src: url('../fonts/thmanyahseriftext-Bold.woff2') format('woff2'); font-weight: 700; font-display: swap; }
+@font-face { font-family: 'UserArabicFont'; src: url('../fonts/thmanyahseriftext-Black.woff2') format('woff2'); font-weight: 900; font-display: swap; }
 
 :root {
   --font: 'UserArabicFont', 'Noto Sans Arabic', 'Segoe UI', Tahoma, 'Geeza Pro', system-ui, sans-serif;
