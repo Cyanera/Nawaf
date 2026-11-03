@@ -1,5 +1,6 @@
 /* التوجيه والإقلاع */
 (function () {
+  document.documentElement.dir = 'rtl'; document.documentElement.lang = 'ar';
   var NAV = { home: 'home', placement: 'home', session: 'home', cv: 'path', path: 'path', lesson: 'path', review: 'review', cards: 'review', labs: 'labs', lab: 'labs', interview: 'interview', mock: 'interview', progress: 'progress' };
 
   function route() {
@@ -16,5 +17,5 @@
   }
   window.addEventListener('hashchange', route);
   document.addEventListener('DOMContentLoaded', function () {
-    var sk = document.querySelector('.skip'); if (sk) sk.addEventListener('click', function (e) { e.preventDefault(); var m = document.getElementById('app'); m.focus(); }); App.checkAch(); route(); });
+    var sk = document.querySelector('.skip'); if (sk) sk.addEventListener('click', function (e) { e.preventDefault(); var m = document.getElementById('app'); m.focus(); }); App.checkAch(); route(); Store.attachCloud(function () { route(); }); });
 })();

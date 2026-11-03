@@ -131,7 +131,7 @@
       return '<li class="' + (got ? 'got' : '') + '"><strong>' + esc(a.title) + '</strong><span class="small">' + esc(a.desc) + '</span><span class="small muted">' + (got ? 'تحقق في ' + UI.fmtDateShort(got) : 'لم يتحقق بعد') + '</span></li>';
     }).join('') + '</ul></section>';
 
-    h += '<section class="card"><h2>بياناتي</h2><p>يُحفظ تقدّمك في متصفحك هذا فقط. إذا مسحتَ بيانات الموقع أو غيّرتَ الجهاز فسيختفي، لذلك يُنصح بتصدير نسخة احتياطية بين فترة وأخرى.</p>' +
+    h += '<section class="card"><h2>بياناتي</h2><p>يُحفظ تقدّمك في متصفحك أولًا' + (Store.cloudState() === 'on' ? '، ومعه نسخة احتياطية خاصة بحسابك تحميه من مسح بيانات المتصفح وتنقله بين أجهزتك.' : '. النسخة الاحتياطية على الحساب غير مفعّلة هنا.') + '' + (Store.cloudState() === 'on' ? '' : '<br>إذا مسحتَ بيانات الموقع أو غيّرتَ الجهاز فسيختفي، لذلك يُنصح بتصدير نسخة احتياطية بين فترة وأخرى.') + '</p>' +
       '<div class="row wrap"><button class="btn" id="exp">تصدير التقدّم (ملف JSON)</button><label class="btn" for="imp" tabindex="0" id="imp-l">استيراد تقدّم</label><input type="file" id="imp" accept="application/json,.json" hidden><button class="btn btn-danger" id="rst">إعادة ضبط كل شيء</button></div><p class="small muted" id="data-msg" role="status"></p>' +
       '<div id="exp-box" hidden><label class="lbl" for="exp-t">نسخة تقدّمك (انسخها واحفظها في ملاحظات أو رسالة لنفسك)</label><textarea id="exp-t" rows="5" readonly></textarea><button class="btn" id="exp-copy">انسخ النص</button></div>' +
       '<label class="lbl" for="imp-t">استيراد من نص منسوخ</label><textarea id="imp-t" rows="3" placeholder="الصق هنا نسخة التقدّم"></textarea><button class="btn" id="imp-go">استورد النص</button></section>';

@@ -33,9 +33,22 @@
   }
   S = load();
 
+  var cloudRef = null, cloudTimer = null, cloudState = 'off';
+  function pushCloud() {
+    if (!cloudRef) return;
+    clearTimeout(cloudTimer);
+    cloudTimer = setTimeout(function () {
+      var json = JSON.stringify(S);
+      if (json.length > 240000) { cloudState = 'big'; return; }
+      cloudRef.set({ json: json, savedAt: S.savedAt || Date.now() }).then(function () { cloudState = 'on'; }, function () { cloudState = 'error'; });
+    }, 1500);
+  }
   function save() {
-    try { localStorage.setItem(KEY, JSON.stringify(S)); } catch (e) { memoryOnly = true; return false; }
-    memoryOnly = false; return true;
+    S.savedAt = Date.now();
+    var ok = true;
+    try { localStorage.setItem(KEY, JSON.stringify(S)); memoryOnly = false; } catch (e) { memoryOnly = true; ok = false; }
+    pushCloud();
+    return ok;
   }
   // اختبار توفّر التخزين
   try { localStorage.setItem(KEY + '-t', '1'); localStorage.removeItem(KEY + '-t'); } catch (e) { memoryOnly = true; }
@@ -44,6 +57,34 @@
     KEY: KEY,
     INTERVALS: INTERVALS,
     get: function () { return S; },
+    cloudState: function () { return cloudState; },
+    /* نسخة احتياطية خاصة بالمستخدم على الخادم (إن وُجدت قدرة db في الصفحة المنشورة). المتصفح يبقى المصدر الأول. */
+    attachCloud: function (onAdopt) {
+      try {
+        if (!window.claude || typeof window.claude.use !== 'function') return Promise.resolve();
+        return Promise.all([window.claude.use('user'), window.claude.use('db')]).then(function (r) {
+          var u = r[0], db = r[1]; if (!u || !db) return null;
+          return u.id().then(function (id) {
+            if (!id) return null;
+            cloudRef = db.collection('data/users/' + id).doc('progress');
+            return cloudRef.get().then(function (snap) {
+              cloudState = 'on';
+              var d = snap.exists ? snap.data() : null;
+              if (d && d.json) {
+                var remote = JSON.parse(d.json);
+                if ((remote.savedAt || 0) > (S.savedAt || 0)) {
+                  S = normalize(remote);
+                  try { localStorage.setItem(KEY, JSON.stringify(S)); } catch (e) { }
+                  if (onAdopt) onAdopt();
+                  return;
+                }
+              }
+              if (Object.keys(S.days).length || Object.keys(S.lessons).length) pushCloud();
+            });
+          });
+        }).catch(function () { cloudState = 'error'; });
+      } catch (e) { return Promise.resolve(); }
+    },
     save: save,
     memoryOnly: function () { return memoryOnly; },
     now: function () { return new Date(); },

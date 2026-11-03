@@ -1,49 +1,49 @@
 {
   "app": "nawaf-learning",
-  "exportedAt": "2026-11-03T19:28:28.743Z",
+  "exportedAt": "2026-11-03T19:35:25.895Z",
   "v": 1,
-  "created": 1793734098827,
+  "created": 1793734516219,
   "days": {
     "2026-11-03": [
       {
         "k": "placement",
         "l": "أنهيتَ التقييم المبدئي",
-        "t": 1793734099729
+        "t": 1793734517112
       },
       {
         "k": "lesson:L4:exercise",
         "l": "أكملتَ تمرين «عنوان IPv4: الخاص والعام وAPIPA»",
-        "t": 1793734099996
+        "t": 1793734517366
       },
       {
         "k": "lesson:L4:interview",
         "l": "تدرّبتَ على سؤال مقابلة «عنوان IPv4: الخاص والعام وAPIPA»",
-        "t": 1793734100095
+        "t": 1793734517464
       },
       {
         "k": "lesson:L4:quiz",
         "l": "أنهيتَ اختبار «عنوان IPv4: الخاص والعام وAPIPA»",
-        "t": 1793734100497
+        "t": 1793734517896
       },
       {
         "k": "cards:studied",
         "l": "أنهيتَ جلسة بطاقات (3)",
-        "t": 1793734101546
+        "t": 1793734518810
       },
       {
-        "k": "review:L1-q0,L1-q1,L1-q2,L2-q0,L2-q2,L3-q0,L3-q1,L3-q2",
+        "k": "review:L1-q0,L1-q1,L1-q2,L2-q0,L2-q1,L2-q2,L3-q0,L3-q1",
         "l": "أنهيتَ مراجعة 8 أسئلة",
-        "t": 1793734102497
+        "t": 1793734519645
       },
       {
         "k": "lab:lab5",
         "l": "نفّذتَ مختبر «تشخيص اتصال حاسوبك خطوة بخطوة»",
-        "t": 1793734103130
+        "t": 1793734520297
       },
       {
-        "k": "mock:2026-11-03:m-intro,m-L3,m-L4,m-L8,m-L11,m-L13,m-b1,m-b2,m-u3,m-ask",
+        "k": "mock:2026-11-03:m-intro,m-L3,m-L4,m-L7,m-L10,m-L13,m-b4,m-b3,m-u2,m-ask",
         "l": "أنهيتَ مقابلة تجريبية",
-        "t": 1793734108563
+        "t": 1793734525715
       }
     ]
   },
@@ -73,24 +73,9 @@
       "box": 0,
       "due": "2026-11-03",
       "seen": {
+        "L2-q0": 1,
         "L2-q2": 1,
-        "L2-q0": 1
-      },
-      "ex": "",
-      "exDone": false,
-      "iv": "",
-      "ivDone": false,
-      "quizDone": false,
-      "quizLast": null
-    },
-    "L3": {
-      "status": "learning",
-      "box": 0,
-      "due": "2026-11-03",
-      "seen": {
-        "L3-q0": 1,
-        "L3-q1": 1,
-        "L3-q2": 1
+        "L2-q1": 1
       },
       "ex": "",
       "exDone": false,
@@ -115,7 +100,22 @@
       "quizDone": false,
       "quizLast": null
     },
-    "L8": {
+    "L3": {
+      "status": "learning",
+      "box": 0,
+      "due": "2026-11-03",
+      "seen": {
+        "L3-q0": 1,
+        "L3-q1": 1
+      },
+      "ex": "",
+      "exDone": false,
+      "iv": "",
+      "ivDone": false,
+      "quizDone": false,
+      "quizLast": null
+    },
+    "L7": {
       "status": "new",
       "box": 0,
       "due": "2026-11-03",
@@ -127,7 +127,7 @@
       "quizDone": false,
       "quizLast": null
     },
-    "L11": {
+    "L10": {
       "status": "new",
       "box": 0,
       "due": "2026-11-03",
@@ -176,15 +176,15 @@
     }
   },
   "cards": {
-    "L4-c2": {
-      "k": 0,
-      "u": 1
-    },
     "L4-c0": {
       "k": 0,
       "u": 1
     },
     "L4-c1": {
+      "k": 0,
+      "u": 1
+    },
+    "L4-c2": {
       "k": 0,
       "u": 1
     }
@@ -193,7 +193,7 @@
     "day": "2026-11-03",
     "answers": {
       "P1": "idk",
-      "P2": "wrong",
+      "P2": "ok",
       "P3": "wrong",
       "P4": "idk",
       "P5": "wrong",
@@ -204,18 +204,18 @@
       "P10": "idk"
     },
     "score": {
-      "M1": 0,
+      "M1": 1,
       "M2": 0,
       "M3": 0,
       "M4": 0,
       "M5": 0
     },
     "order": [
-      "M1",
       "M2",
       "M3",
       "M4",
-      "M5"
+      "M5",
+      "M1"
     ]
   },
   "placementSkipped": false,
@@ -261,7 +261,7 @@
             "total": 3
           },
           {
-            "id": "m-L8",
+            "id": "m-L7",
             "idea": "part",
             "clarity": "part",
             "example": "part",
@@ -270,7 +270,7 @@
             "total": 3
           },
           {
-            "id": "m-L11",
+            "id": "m-L10",
             "idea": "part",
             "clarity": "part",
             "example": "part",
@@ -288,7 +288,7 @@
             "total": 3
           },
           {
-            "id": "m-b1",
+            "id": "m-b4",
             "idea": "part",
             "clarity": "part",
             "example": "part",
@@ -297,7 +297,7 @@
             "total": 3
           },
           {
-            "id": "m-b2",
+            "id": "m-b3",
             "idea": "part",
             "clarity": "part",
             "example": "part",
@@ -306,7 +306,7 @@
             "total": 3
           },
           {
-            "id": "m-u3",
+            "id": "m-u2",
             "idea": "part",
             "clarity": "part",
             "example": "part",
@@ -337,6 +337,7 @@
   },
   "qlog": {
     "answered": 11,
-    "correct": 2
-  }
+    "correct": 3
+  },
+  "savedAt": 1793734525715
 }
